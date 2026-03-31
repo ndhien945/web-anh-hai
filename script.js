@@ -1,74 +1,89 @@
-// 1. Khai báo danh sách sắp xếp: Video trước, Ảnh sau
-// Bạn chỉ cần thay tên file tương ứng có trong thư mục của bạn
-const mediaList = [
-    { type: 'video', src: 'main/video1.mp4' }, // Video 1
-    { type: 'video', src: 'main/video2.mp4' }, // Video 2
-    { type: 'image', src: 'main/image1.jpg' }, // Ảnh 1
-    { type: 'image', src: 'main/image2.jpg' }  // Ảnh 2
-];
+document.addEventListener("DOMContentLoaded", function() {
 
-let currentIndex = 0;
+    // 1. Khai báo danh sách media
+    const mediaList = [
+        { type: 'video', src: 'main/video1.mp4' },
+        { type: 'video', src: 'main/video2.mp4' },
+        { type: 'image', src: 'main/image1.jpg' },
+        { type: 'image', src: 'main/image2.jpg' }    
+    ];
 
-const mediaContainer = document.getElementById("media-container");
-const leftBtn = document.querySelector(".left-btn");
-const rightBtn = document.querySelector(".right-btn");
+    let currentIndex = 0;
+    let autoSlideTimer; // Biến mới: Dùng để lưu trữ đồng hồ đếm ngược
 
-// 2. Hàm khởi tạo: Nhúng sẵn tất cả video và ảnh vào HTML
-function initMedia() {
-    mediaList.forEach((media, index) => {
-        let element;
-        
-        // Nếu là video thì tạo thẻ <video>
-        if (media.type === 'video') {
-            element = document.createElement("video");
-            element.src = media.src;
-            element.autoplay = true;
-            element.loop = true;
-            element.muted = true;
-            element.playsInline = true;
-        } 
-        // Nếu là ảnh thì tạo thẻ <img>
-        else {
-            element = document.createElement("img");
-            element.src = media.src;
-        }
-        
-        // Bật hiển thị cho phần tử đầu tiên (vị trí số 0)
-        if (index === 0) {
-            element.classList.add("active");
-        }
-        
-        // Đưa phần tử vào khung chứa
-        mediaContainer.appendChild(element);
-    });
-}
+    const mediaContainer = document.getElementById("media-container");
+    const leftBtn = document.querySelector(".left-btn");
+    const rightBtn = document.querySelector(".right-btn");
 
-// 3. Hàm chuyển đổi hiển thị
-function updateSlider() {
-    const allMediaElements = mediaContainer.children;
-    
-    // Tắt hiển thị của TẤT CẢ các media
-    for (let i = 0; i < allMediaElements.length; i++) {
-        allMediaElements[i].classList.remove("active");
+    if (!mediaContainer) {
+        console.error("Lỗi: Không tìm thấy id='media-container' trong HTML!");
+        return;
     }
-    
-    // Chỉ bật hiển thị cho media ở vị trí hiện tại
-    allMediaElements[currentIndex].classList.add("active");
-}
 
-// Chạy hàm khởi tạo khi trang web vừa load xong
-initMedia();
+    // 2. Hàm khởi tạo (Giữ nguyên)
+    function initMedia() {
+        mediaList.forEach((media, index) => {
+            let element;
+            if (media.type === 'video') {
+                element = document.createElement("video");
+                element.src = media.src;
+                element.autoplay = true;
+                element.loop = true;
+                element.muted = true;
+                element.playsInline = true;
+            } else {
+                element = document.createElement("img");
+                element.src = media.src;
+            }
+            
+            if (index === 0) {
+                element.classList.add("active");
+            }
+            mediaContainer.appendChild(element);
+        });
+    }
 
-// 4. Xử lý khi bấm mũi tên Phải
-rightBtn.addEventListener("click", () => {
-    // Vòng lặp tiến: Nếu đến cuối thì quay lại 0 (Video 1)
-    currentIndex = (currentIndex + 1) % mediaList.length;
-    updateSlider();
-});
+    // 3. Hàm cập nhật hiển thị (Giữ nguyên)
+    function updateSlider() {
+        const allMediaElements = mediaContainer.children;
+        for (let i = 0; i < allMediaElements.length; i++) {
+            allMediaElements[i].classList.remove("active");
+        }
+        allMediaElements[currentIndex].classList.add("active");
+    }
 
-// 5. Xử lý khi bấm mũi tên Trái
-leftBtn.addEventListener("click", () => {
-    // Vòng lặp lùi: Nếu đang ở 0 mà lùi thì nhảy xuống cuối cùng
-    currentIndex = (currentIndex - 1 + mediaList.length) % mediaList.length;
-    updateSlider();
+    // === TÍNH NĂNG MỚI BẮT ĐẦU TỪ ĐÂY ===
+
+    // Hàm chuyển sang slide tiếp theo (dùng chung cho nút bấm và nút tự động)
+    function nextSlide() {
+        currentIndex = (currentIndex + 1) % mediaList.length;
+        updateSlider();
+    }
+
+    // Hàm thiết lập/reset lại đồng hồ 10 giây
+    function resetAutoSlide() {
+        clearInterval(autoSlideTimer); // Xóa bỏ cái đồng hồ cũ đi (nếu có)
+        autoSlideTimer = setInterval(nextSlide, 10000); // Đặt đồng hồ mới chạy sau 10000 mili-giây (10 giây)
+    }
+
+    // === KẾT THÚC TÍNH NĂNG MỚI ===
+
+    // Chạy khởi tạo
+    initMedia();
+    resetAutoSlide(); // Kích hoạt đồng hồ chạy ngay khi web tải xong
+
+    // 4. Xử lý nút bấm
+    if (rightBtn && leftBtn) {
+        rightBtn.addEventListener("click", () => {
+            nextSlide(); 
+            resetAutoSlide(); // QUAN TRỌNG: Người dùng bấm thì phải reset lại 10 giây từ đầu!
+        });
+
+        leftBtn.addEventListener("click", () => {
+            // Logic lùi slide
+            currentIndex = (currentIndex - 1 + mediaList.length) % mediaList.length;
+            updateSlider();
+            resetAutoSlide(); // Tương tự, reset đồng hồ
+        });
+    }
 });
