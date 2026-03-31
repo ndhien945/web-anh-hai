@@ -1,0 +1,46 @@
+### style.css
+## text logo
+.logo {
+    font-weight: 200; /* Phông chữ mỏng */
+    font-size: 1.5rem;
+    color:rgba(255, 255, 255, 0.7); /* Mờ mờ (whent 0.7) */
+    text-transform: uppercase;
+    letter-spacing: 2px; 
+} 
+
+## video background
+.back-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Giữ tỷ lệ video tràn màn hình */
+    z-index: -1; /* Đặt video đằng sau */
+}
+
+## background image
+.bg-slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    transition: opacity 0.4s ease-in-out; /* Hiệu ứng mờ dần (fade) khi chuyển ảnh cho mượt */
+}
+
+## left arrow hover effect
+.left-btn:hover {
+    opacity: 1; /* Hiện lên */
+    /* Thêm một dải màu đen mờ (gradient) từ trái sang phải để mũi tên nổi bật trên mọi nền sáng/tối */
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.6), transparent);
+}
+
+## right arrow hover effect
+.right-btn:hover {
+    opacity: 1; /* Hiện lên */
+    /* Thêm dải màu đen mờ từ phải sang trái */
+    background: linear-gradient(to left, rgba(0, 0, 0, 0.6), transparent);
+}

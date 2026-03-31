@@ -1,0 +1,176 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'IBM Plex Serif', serif; /* Sử dụng phông IBM Plex Serif */
+}
+
+.hero {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Kiểu dáng cho video nền */ 
+/* dictionary.txt -> style.css -> video background */
+
+/* Kiểu dáng cho ảnh nền (thay cho video cũ) */
+/* dictionary.txt -> style.css -> background image */
+
+/* Khung chứa toàn màn hình */
+#media-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-color: #000; /* Nền đen chống giật chớp khi chuyển cảnh */
+}
+
+/* Ép tất cả video và ảnh bên trong phải tràn viền và nằm chồng lên nhau */
+#media-container img,
+#media-container video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0; /* Mặc định ẩn tất cả */
+    transition: opacity 0.5s ease-in-out; /* Hiệu ứng mờ dần mượt mà */
+}
+
+/* Media nào được gắn class 'active' sẽ hiện lên */
+#media-container .active {
+    opacity: 1;
+}
+
+/* Kiểu dáng chung cho 2 nút mũi tên */
+.nav-btn {
+    position: absolute;
+    top: 50%; /* Canh giữa theo chiều dọc */
+    transform: translateY(0%);
+    background: rgba(255, 255, 255, 0.1); /* Nền hơi mờ một chút */
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 2.5rem;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 5px; /* Bo góc nhẹ */
+    cursor: pointer;
+    z-index: 10; /* Đảm bảo nút nằm trên cùng */
+    transition: all 0.3s ease;
+}
+
+/* Hiệu ứng khi di chuột vào mũi tên */
+/* Kiểu dáng chung cho vùng chứa mũi tên */
+.nav-btn {
+    position: absolute;
+    top: 0;
+    height: 100%; /* Kéo dài bằng cả chiều cao màn hình */
+    width: 5%; /* Vùng rê chuột chiếm 5% chiều rộng màn hình ở mỗi bên */
+    background: transparent; /* Nền trong suốt */
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 3rem; /* Tăng kích thước mũi tên to hơn một chút */
+    border: none;
+    cursor: pointer;
+    z-index: 10;
+    
+    /* Căn giữa mũi tên theo chiều dọc và ngang trong vùng 5% đó */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    opacity: 0; /* TÀNG HÌNH MẶC ĐỊNH */
+    transition: all 0.4s ease; /* Hiệu ứng hiện ra mượt mà */
+}
+
+/* Vùng mũi tên bên trái */
+.left-btn {
+    left: 0;
+}
+
+/* Hiệu ứng khi đưa chuột vào vùng mép trái */
+.left-btn:hover {
+    opacity: 1; /* Hiện lên */
+    /* Thêm một dải màu đen mờ (gradient) từ trái sang phải để mũi tên nổi bật trên mọi nền sáng/tối */
+    background: linear-gradient(to right, rgba(0, 0, 0, 0), transparent);
+}
+
+/* Vùng mũi tên bên phải */
+.right-btn {
+    right: 0;
+}
+
+/* Hiệu ứng khi đưa chuột vào vùng mép phải */
+.right-btn:hover {
+    opacity: 1; /* Hiện lên */
+    /* Thêm dải màu đen mờ từ phải sang trái */
+    background: linear-gradient(to left, rgba(0, 0, 0, 0), transparent);
+}
+
+/* Lớp phủ mờ (overlay) để text dễ đọc hơn */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* Overlay mờ màu đen, điều chỉnh độ mờ */
+    z-index: 0;
+}
+
+/* Vị trí cho header */
+header {
+    position: fixed; /* Hoặc absolute, nhưng fixed giữ nó khi cuộn */
+    top: 2rem; /* Tăng padding để giống ảnh hơn (xa mép trên) */
+    left: 4rem; /* Tăng padding để giống ảnh hơn (xa mép trái) */
+    right: 4rem; /* Tăng padding để giống ảnh hơn (xa mép phải) */
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Tên nhãn: Mờ mờ, uppercase, phông mảnh */
+
+/* Logo cũ: Dòng chữ: dictionary.txt -> style.css -> text logo */
+.logo {
+    height: 60px; /* Chiều cao của logo, bạn có thể tăng giảm số này (ví dụ: 50px, 80px) để vừa mắt */
+    width: auto; /* Tự động điều chỉnh chiều rộng để ảnh không bị méo */
+    cursor: pointer; /* Hiển thị con trỏ hình bàn tay khi người dùng di chuột vào logo */
+    opacity: 0.8; /* Hơi mờ một chút cho giống phong cách ban đầu (1 là rõ hoàn toàn, 0 là trong suốt) */
+    transition: opacity 0.3s ease; /* Hiệu ứng chuyển đổi mượt mà */
+}
+
+/* Thêm hiệu ứng sáng lên khi di chuột vào logo */
+.logo:hover {
+    opacity: 1;
+}
+
+/* Menu điều hướng */
+.nav-links {
+    display: flex;
+    gap: 2rem; /* Khoảng cách giữa các mục menu */
+    list-style: none;
+}
+
+/* Kiểu dáng cho liên kết menu: Uppercase, mờ mờ */
+.nav-links li a {
+    font-weight: 300;
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.7); /* Mờ mờ (whent 0.7) */
+    text-decoration: none;
+    text-transform: uppercase; /* Chữ in hoa */
+    letter-spacing: 1px;
+    transition: color 0.3s ease;
+}
+
+/* Hiệu ứng hover cho menu: Sáng lên */
+.nav-links li a:hover {
+    color: rgba(255, 255, 255, 1); /* Sáng lên khi hover */
+}
