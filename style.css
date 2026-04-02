@@ -174,3 +174,181 @@ header {
 .nav-links li a:hover {
     color: rgba(255, 255, 255, 1); /* Sáng lên khi hover */
 }
+
+
+/* --- CÁC PHẦN CUỘN TRANG (SCROLL SECTIONS) --- */
+
+/* Kích hoạt hiệu ứng cuộn mượt mà khi bấm vào menu */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Kiểu dáng chung cho các trang cuộn */
+.page-section {
+    min-height: 100vh; /* Mỗi phần chiếm ít nhất 100% chiều cao màn hình */
+    display: flex;
+    flex-direction: column; /* Xếp dọc nội dung */
+    justify-content: center; /* Căn giữa theo chiều dọc */
+    align-items: center; /* Căn giữa theo chiều ngang */
+    text-align: center;
+    background-color: #111; /* Màu nền xám đen tối giản, sang trọng */
+    color: #fff;
+    padding: 50px 20px;
+}
+
+/* Đổi màu nền của phần Project sáng hơn một chút để phân biệt với 2 phần kia */
+/* #project {
+    background-color: #1a1a1a;
+} */
+
+/* Kiểu dáng cho tiêu đề 1 dòng */
+.page-section h2 {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    font-weight: 300;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #ffffff;
+}
+
+/* Kiểu dáng cho đoạn văn bản 1 dòng */
+.page-section p {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.7);
+    max-width: 600px;
+    line-height: 1.6;
+}
+
+/* --- PHẦN PROJECT PORTFOLIO (LƯỚI ẢNH TRẮNG) --- */
+
+.portfolio-section {
+    background-color: #ffffff; /* Nền trắng */
+    color: #000000; /* Chữ đen */
+    padding: 80px 20px; 
+    min-height: 100vh;
+}
+
+/* Giới hạn chiều rộng để không bị loe ra quá to trên màn hình rộng */
+.portfolio-container {
+    max-width: 1200px;
+    margin: 0 auto; /* Căn giữa màn hình */
+}
+
+/* --- Header của Portfolio --- */
+.portfolio-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 40px; /* Cách lưới ảnh 40px */
+}
+
+/* Tạo một hình tròn nhỏ làm avatar giả lập */
+.portfolio-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+    margin-right: 20px;
+}
+
+/* Chỉnh chữ cho tiêu đề */
+.portfolio-info h3 {
+    font-size: 1.2rem;
+    margin: 0 0 5px 0;
+    font-weight: 600;
+    margin-left: 20px;
+}
+
+.portfolio-info p {
+    font-size: 0.9rem;
+    color: #555;
+    margin: 0;
+    margin-left: 20px;
+}
+/* --- Lưới ảnh 3 Cột (GRID) - Đã cập nhật để thêm hiệu ứng hover --- */
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+/* Từng ô ảnh */
+.grid-item {
+    position: relative; /* QUAN TRỌNG: Để lớp phủ căn chỉnh bên trong */
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background-color: #eee;
+    cursor: pointer;
+}
+
+/* Hiệu ứng cho ảnh bên trong */
+.grid-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 1; /* Mặc định ảnh rõ */
+    transition: all 0.4s ease; /* Chuyển động mượt */
+
+    /* Ép render bằng GPU để chống khựng (Giữ lại từ bước trước) */
+    transform: translateZ(0); 
+    backface-visibility: hidden;
+}
+
+/* Hover chuột vào thì ảnh zoom nhẹ lên và hơi mờ đi (Tùy chọn) */
+.grid-item:hover img {
+    transform: scale(1.03); /* Phóng to nhỏ hơn một chút */
+}
+
+/* --- Lớp phủ (Overlay) - Mới thêm --- */
+.project-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 20%;
+    
+    /* Nền mờ màu đen (Độ mờ 10%) */
+    background-color: rgba(0, 0, 0, 0.3);
+    
+    /* Căn giữa tiêu đề theo chiều dọc và ngang */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    
+    /* Mặc định ẩn */
+    opacity: 0;
+    transition: opacity 0.3s ease; /* Xuất hiện mượt */
+    z-index: 2; /* Nằm trên ảnh */
+}
+
+/* Hover vào ô ảnh thì lớp phủ hiện lên */
+.grid-item:hover .project-overlay {
+    opacity: 1;
+}
+
+/* --- Tiêu đề chữ trắng - Mới thêm --- */
+.project-title {
+    color: #ffffff; /* Chữ trắng */
+    font-size: 1.2rem;
+    font-weight: 300; /* Nét chữ thanh mảnh cho sang trọng */
+    margin: 0;
+    padding: 10px 20px;
+    letter-spacing: 1px;
+    text-transform: uppercase; /* Viết hoa */
+    
+    /* Hiệu ứng trượt nhẹ khi xuất hiện (Tùy chọn) */
+    transform: translateY(10px); 
+    transition: all 0.3s ease; 
+}
+
+/* Hover vào ô ảnh thì chữ trượt lên và hiện rõ */
+.grid-item:hover .project-title {
+    transform: translateY(0);
+    opacity: 1;
+}
